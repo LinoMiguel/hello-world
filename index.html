@@ -3,10 +3,608 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World</title>
+  <title>Wellington, New Zealand — The Creative Capital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #0a4f6e;
+      --primary-light: #0d6b95;
+      --secondary: #1a8c5b;
+      --accent: #f4a823;
+      --dark: #0d1b2a;
+      --text: #2d3748;
+      --text-light: #718096;
+      --light: #f7fafc;
+      --white: #ffffff;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --t: 0.3s ease;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(13,27,42,0.96); backdrop-filter: blur(10px); padding: 0 2rem; }
+    .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #fff; text-decoration: none; font-weight: 700; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color var(--t); }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+    .nav-toggle span { display: block; width: 24px; height: 2px; background: white; margin: 5px 0; transition: var(--t); }
+
+    /* HERO */
+    .hero { min-height: 100vh; background: linear-gradient(135deg, #0d1b2a 0%, #0a4f6e 55%, #1a8c5b 100%); display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; padding: 6rem 2rem 4rem; }
+    .hero-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .particle { position: absolute; width: 3px; height: 3px; background: rgba(255,255,255,0.25); border-radius: 50%; animation: floatUp linear infinite; }
+    @keyframes floatUp { 0% { transform: translateY(100vh); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 0.4; } 100% { transform: translateY(-10vh); opacity: 0; } }
+    .hero-content { position: relative; z-index: 1; max-width: 820px; }
+    .hero-badge { display: inline-block; background: rgba(244,168,35,0.15); border: 1px solid var(--accent); color: var(--accent); padding: 0.4rem 1.2rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.5rem; animation: fadeUp 0.8s ease both; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 7vw, 5.5rem); color: #fff; line-height: 1.1; margin-bottom: 1rem; animation: fadeUp 0.8s ease 0.15s both; }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-sub { font-size: 1.1rem; color: rgba(255,255,255,0.72); margin-bottom: 2.5rem; max-width: 580px; margin-left: auto; margin-right: auto; line-height: 1.75; animation: fadeUp 0.8s ease 0.3s both; }
+    .hero-stats { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; margin-bottom: 2.5rem; animation: fadeUp 0.8s ease 0.45s both; }
+    .hero-stat-value { display: block; font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--accent); }
+    .hero-stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.1em; }
+    .hero-cta { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: var(--dark); padding: 0.9rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: transform var(--t), box-shadow var(--t); animation: fadeUp 0.8s ease 0.6s both; }
+    .hero-cta:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(244,168,35,0.4); }
+    .scroll-arrow { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.4); font-size: 1.5rem; animation: bounce 2s infinite; cursor: pointer; }
+    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* SECTIONS */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--secondary); margin-bottom: 0.4rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--dark); margin-bottom: 0.75rem; line-height: 1.2; }
+    .section-desc { color: var(--text-light); font-size: 1rem; line-height: 1.75; max-width: 600px; }
+    .section-header { margin-bottom: 2.5rem; }
+
+    /* ABOUT */
+    #about { background: var(--light); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .about-text p { color: var(--text-light); line-height: 1.8; margin-bottom: 1rem; }
+    .fact-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .fact-card { background: var(--white); border-radius: 14px; padding: 1.25rem; box-shadow: var(--shadow); border-left: 4px solid var(--primary); transition: transform var(--t); }
+    .fact-card:hover { transform: translateY(-4px); }
+    .fact-card:nth-child(2) { border-color: var(--secondary); }
+    .fact-card:nth-child(3) { border-color: var(--accent); }
+    .fact-card:nth-child(4) { border-color: #805ad5; }
+    .fact-card:nth-child(5) { border-color: #e53e3e; }
+    .fact-card:nth-child(6) { border-color: #38b2ac; }
+    .fact-card:nth-child(7) { border-color: #dd6b20; }
+    .fact-card:nth-child(8) { border-color: var(--primary-light); }
+    .fact-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+    .fact-value { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; color: var(--dark); }
+    .fact-label { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* DID YOU KNOW */
+    .dyk { background: linear-gradient(135deg, var(--primary), var(--primary-light)); padding: 1.75rem 2rem; border-radius: 18px; margin-top: 2rem; position: relative; overflow: hidden; }
+    .dyk::before { content: '\201C'; position: absolute; top: -1.5rem; left: 0.5rem; font-size: 8rem; font-family: 'Playfair Display', serif; color: rgba(255,255,255,0.08); line-height: 1; }
+    .dyk-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.6rem; }
+    .dyk-text { font-size: 0.95rem; line-height: 1.6; color: rgba(255,255,255,0.9); min-height: 3em; transition: opacity 0.25s; }
+    .dyk-dots { display: flex; gap: 0.4rem; margin-top: 1rem; }
+    .dyk-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: background var(--t); }
+    .dyk-dot.active { background: var(--accent); }
+
+    /* ATTRACTIONS */
+    #attractions { background: var(--white); }
+    .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .filter-btn { padding: 0.45rem 1.15rem; border-radius: 50px; border: 2px solid #e2e8f0; background: transparent; color: var(--text-light); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all var(--t); font-family: 'Inter', sans-serif; }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--primary); background: var(--primary); color: white; }
+    .attractions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.5rem; }
+    .attr-card { border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid #edf0f3; transition: transform var(--t), box-shadow var(--t); }
+    .attr-card:hover { transform: translateY(-6px); box-shadow: 0 14px 40px rgba(0,0,0,0.13); }
+    .attr-img { height: 150px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
+    .attr-img.culture { background: linear-gradient(135deg, #0a4f6e, #1a3a5c); }
+    .attr-img.nature  { background: linear-gradient(135deg, #1a8c5b, #0a6b45); }
+    .attr-img.food    { background: linear-gradient(135deg, #c05621, #dd6b20); }
+    .attr-img.outdoor { background: linear-gradient(135deg, #276749, #38a169); }
+    .attr-body { padding: 1.2rem; }
+    .attr-tag { display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.2rem 0.55rem; border-radius: 4px; margin-bottom: 0.45rem; }
+    .tag-culture { background: #bee3f8; color: #2a4365; }
+    .tag-nature  { background: #c6f6d5; color: #22543d; }
+    .tag-food    { background: #feebc8; color: #7b341e; }
+    .tag-outdoor { background: #c6f6d5; color: #1a4731; }
+    .attr-body h3 { font-size: 1rem; font-weight: 600; color: var(--dark); margin-bottom: 0.35rem; }
+    .attr-body p  { font-size: 0.85rem; color: var(--text-light); line-height: 1.5; }
+    .attr-meta { font-size: 0.78rem; color: var(--text-light); margin-top: 0.65rem; }
+
+    /* NEIGHBORHOODS */
+    #neighborhoods { background: var(--light); }
+    .hood-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.5rem; }
+    .hood-card { background: var(--white); border-radius: 18px; padding: 1.75rem; box-shadow: var(--shadow); position: relative; overflow: hidden; transition: transform var(--t); }
+    .hood-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+    .hood-card:nth-child(1)::before { background: var(--primary); }
+    .hood-card:nth-child(2)::before { background: var(--secondary); }
+    .hood-card:nth-child(3)::before { background: var(--accent); }
+    .hood-card:nth-child(4)::before { background: #805ad5; }
+    .hood-card:nth-child(5)::before { background: #e53e3e; }
+    .hood-card:nth-child(6)::before { background: #38b2ac; }
+    .hood-card:hover { transform: translateY(-4px); }
+    .hood-emoji { font-size: 2rem; margin-bottom: 0.6rem; }
+    .hood-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--dark); margin-bottom: 0.4rem; }
+    .hood-card p  { font-size: 0.85rem; color: var(--text-light); line-height: 1.6; }
+    .hood-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.85rem; }
+    .h-tag { font-size: 0.68rem; padding: 0.2rem 0.55rem; background: var(--light); border-radius: 50px; color: var(--text-light); font-weight: 500; }
+
+    /* WEATHER */
+    #weather { background: linear-gradient(135deg, #0d1b2a, #0a4f6e); }
+    #weather .section-title { color: white; }
+    #weather .section-desc { color: rgba(255,255,255,0.65); }
+    #weather .section-label { color: var(--accent); }
+    .seasons-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+    .season-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 1.75rem; text-align: center; transition: background var(--t); }
+    .season-card:hover { background: rgba(255,255,255,0.13); }
+    .season-icon { font-size: 2.5rem; margin-bottom: 0.6rem; }
+    .season-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: white; margin-bottom: 0.2rem; }
+    .season-months { font-size: 0.72rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.85rem; }
+    .season-temp { font-size: 2rem; font-family: 'Playfair Display', serif; font-weight: 700; color: white; margin-bottom: 0.45rem; }
+    .season-card p { font-size: 0.8rem; color: rgba(255,255,255,0.6); line-height: 1.5; }
+    .weather-note { margin-top: 1.75rem; padding: 1.2rem 1.5rem; background: rgba(244,168,35,0.12); border: 1px solid rgba(244,168,35,0.28); border-radius: 12px; display: flex; align-items: center; gap: 1rem; font-size: 0.875rem; color: rgba(255,255,255,0.8); }
+
+    /* CULTURE TABS */
+    #culture { background: var(--white); }
+    .tabs { display: flex; border-bottom: 2px solid #e2e8f0; margin-bottom: 2rem; overflow-x: auto; gap: 0; }
+    .tab-btn { padding: 0.85rem 1.4rem; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 500; color: var(--text-light); cursor: pointer; white-space: nowrap; transition: all var(--t); }
+    .tab-btn:hover { color: var(--primary); }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .culture-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.2rem; }
+    .cult-card { background: var(--light); border-radius: 14px; padding: 1.4rem; transition: transform var(--t); }
+    .cult-card:hover { transform: translateY(-3px); }
+    .cult-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+    .cult-card h4 { font-size: 0.975rem; font-weight: 600; color: var(--dark); margin-bottom: 0.35rem; }
+    .cult-card p  { font-size: 0.83rem; color: var(--text-light); line-height: 1.55; }
+
+    /* TRANSPORT */
+    #transport { background: var(--light); }
+    .transport-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1.2rem; }
+    .tcard { background: var(--white); border-radius: 16px; padding: 1.75rem; text-align: center; box-shadow: var(--shadow); transition: transform var(--t); }
+    .tcard:hover { transform: translateY(-4px); }
+    .tcard-icon { font-size: 2.5rem; margin-bottom: 0.85rem; }
+    .tcard h3 { font-size: 0.975rem; font-weight: 600; color: var(--dark); margin-bottom: 0.35rem; }
+    .tcard p  { font-size: 0.82rem; color: var(--text-light); line-height: 1.5; }
+
+    /* HISTORY TIMELINE */
+    #history { background: var(--white); }
+    .timeline { position: relative; max-width: 680px; margin: 0 auto; }
+    .timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--primary), var(--secondary)); }
+    .tl-item { display: flex; gap: 1.75rem; margin-bottom: 1.75rem; }
+    .tl-dot { width: 42px; min-width: 42px; height: 42px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1rem; position: relative; z-index: 1; }
+    .tl-body { background: var(--light); border-radius: 12px; padding: 1.2rem 1.5rem; flex: 1; }
+    .tl-year { font-size: 0.72rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.2rem; }
+    .tl-body h3 { font-size: 0.975rem; font-weight: 600; color: var(--dark); margin-bottom: 0.3rem; }
+    .tl-body p  { font-size: 0.83rem; color: var(--text-light); line-height: 1.55; }
+
+    /* MAP */
+    #map { padding: 0; }
+    .map-header { background: var(--dark); padding: 3rem 2rem 1.5rem; }
+    .map-header .section-title { color: white; }
+    .map-header .section-label { color: var(--accent); }
+    .map-header .container { max-width: 1200px; margin: 0 auto; }
+    .map-frame { width: 100%; height: 460px; border: none; display: block; }
+
+    /* FOOTER */
+    footer { background: var(--dark); color: rgba(255,255,255,0.65); padding: 3rem 2rem 2rem; text-align: center; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: white; margin-bottom: 0.4rem; }
+    .footer-logo span { color: var(--accent); }
+    .footer-tagline { font-size: 0.85rem; margin-bottom: 2rem; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; list-style: none; }
+    .footer-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.85rem; transition: color var(--t); }
+    .footer-links a:hover { color: var(--accent); }
+    hr.fdiv { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 0 0 1.25rem; }
+    .footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.35); }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .seasons-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open { display: flex; flex-direction: column; position: fixed; inset: 64px 0 0 0; background: var(--dark); padding: 2rem; gap: 1.5rem; z-index: 999; }
+      .nav-toggle { display: block; }
+      .hero-stats { gap: 1.5rem; }
+    }
+    @media (max-width: 500px) {
+      .fact-cards { grid-template-columns: 1fr; }
+      .seasons-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello World</h1>
-  <h1>Hello World</h1>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">Welling<span>ton</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#attractions">Attractions</a></li>
+        <li><a href="#neighborhoods">Suburbs</a></li>
+        <li><a href="#weather">Weather</a></li>
+        <li><a href="#culture">Culture</a></li>
+        <li><a href="#history">History</a></li>
+        <li><a href="#map">Map</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-particles" id="particles"></div>
+    <div class="hero-content">
+      <div class="hero-badge">New Zealand's Creative Capital</div>
+      <h1>Welcome to<br><em>Wellington</em></h1>
+      <p class="hero-sub">A city perched at the edge of the world — where rugged coastlines meet a thriving arts scene, world-class coffee, and the beating heart of Aotearoa New Zealand.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-value">215K</span>
+          <span class="hero-stat-label">Population</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">41°S</span>
+          <span class="hero-stat-label">Latitude</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">#1</span>
+          <span class="hero-stat-label">Café City NZ</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">1865</span>
+          <span class="hero-stat-label">Capital Since</span>
+        </div>
+      </div>
+      <a href="#about" class="hero-cta">Explore Wellington ↓</a>
+    </div>
+    <div class="scroll-arrow" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">↓</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <div class="section-label">About the City</div>
+          <h2 class="section-title">The Coolest Little Capital in the World</h2>
+          <p>Wellington is the capital city of New Zealand, located at the southern tip of the North Island. Consistently voted one of the world's most liveable cities, it punches far above its weight in culture, cuisine, and creativity.</p>
+          <p>Nestled between a stunning natural harbour and steep bush-covered hills, Wellington is compact enough to explore on foot yet rich enough in experiences to keep you discovering for a lifetime. Its vibrant waterfront, world-renowned Te Papa museum, and thriving café culture make it a city unlike any other.</p>
+          <p>Home to the New Zealand Parliament, it is the political and cultural heart of Aotearoa — and with WETA Workshop nearby, a global centre for creative arts and film.</p>
+          <div class="dyk">
+            <div class="dyk-label">Did You Know?</div>
+            <div class="dyk-text" id="dykText">Wellington has more cafés and restaurants per capita than New York City.</div>
+            <div class="dyk-dots" id="dykDots"></div>
+          </div>
+        </div>
+        <div class="fact-cards reveal">
+          <div class="fact-card"><div class="fact-icon">🏛️</div><div class="fact-value">Capital</div><div class="fact-label">Since 1865</div></div>
+          <div class="fact-card"><div class="fact-icon">🌡️</div><div class="fact-value">13°C</div><div class="fact-label">Avg. Temperature</div></div>
+          <div class="fact-card"><div class="fact-icon">💨</div><div class="fact-value">Windy</div><div class="fact-label">Windiest Capital</div></div>
+          <div class="fact-card"><div class="fact-icon">🗣️</div><div class="fact-value">Māori</div><div class="fact-label">Te Whanganui-a-Tara</div></div>
+          <div class="fact-card"><div class="fact-icon">🌏</div><div class="fact-value">UTC+12</div><div class="fact-label">Timezone (NZST)</div></div>
+          <div class="fact-card"><div class="fact-icon">✈️</div><div class="fact-value">WLG</div><div class="fact-label">Airport Code</div></div>
+          <div class="fact-card"><div class="fact-icon">🎬</div><div class="fact-value">WETA</div><div class="fact-label">Film Capital</div></div>
+          <div class="fact-card"><div class="fact-icon">☕</div><div class="fact-value">800+</div><div class="fact-label">Cafés &amp; Bars</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ATTRACTIONS -->
+  <section id="attractions">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Things To Do</div>
+        <h2 class="section-title">Top Attractions</h2>
+        <p class="section-desc">From cultural landmarks to outdoor adventures, Wellington offers experiences for every traveller.</p>
+      </div>
+      <div class="filter-tabs reveal">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="culture">Culture</button>
+        <button class="filter-btn" data-filter="nature">Nature</button>
+        <button class="filter-btn" data-filter="food">Food &amp; Drink</button>
+        <button class="filter-btn" data-filter="outdoor">Outdoor</button>
+      </div>
+      <div class="attractions-grid" id="attractionsGrid"></div>
+    </div>
+  </section>
+
+  <!-- NEIGHBORHOODS -->
+  <section id="neighborhoods">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Explore the City</div>
+        <h2 class="section-title">Neighbourhoods</h2>
+        <p class="section-desc">Each corner of Wellington has its own distinct character and charm.</p>
+      </div>
+      <div class="hood-grid">
+        <div class="hood-card reveal"><div class="hood-emoji">⚓</div><h3>Te Aro / CBD</h3><p>The beating heart of Wellington — Parliament, Lambton Quay shopping, and the buzzing waterfront all in one compact, walkable precinct.</p><div class="hood-tags"><span class="h-tag">Shopping</span><span class="h-tag">Parliament</span><span class="h-tag">Waterfront</span></div></div>
+        <div class="hood-card reveal"><div class="hood-emoji">🎨</div><h3>Cuba Street</h3><p>Wellington's bohemian soul — independent boutiques, vintage stores, world-class cafés, bars, and weekend buskers. Creative energy at every turn.</p><div class="hood-tags"><span class="h-tag">Arts</span><span class="h-tag">Cafés</span><span class="h-tag">Nightlife</span></div></div>
+        <div class="hood-card reveal"><div class="hood-emoji">🌊</div><h3>Oriental Bay</h3><p>Wellington's golden sandy beach right in the city. Loved by morning runners, paddleboarders, and families on sunny weekend afternoons.</p><div class="hood-tags"><span class="h-tag">Beach</span><span class="h-tag">Walking</span><span class="h-tag">Views</span></div></div>
+        <div class="hood-card reveal"><div class="hood-emoji">🌿</div><h3>Newtown</h3><p>A diverse, eclectic suburb alive with multicultural food, street art, indie shops, and a fiercely proud community spirit.</p><div class="hood-tags"><span class="h-tag">Multicultural</span><span class="h-tag">Street Art</span><span class="h-tag">Markets</span></div></div>
+        <div class="hood-card reveal"><div class="hood-emoji">🦜</div><h3>Karori</h3><p>A leafy, family-friendly suburb tucked into the hills, home to the world-famous Zealandia wildlife sanctuary — a predator-free mainland island.</p><div class="hood-tags"><span class="h-tag">Wildlife</span><span class="h-tag">Families</span><span class="h-tag">Nature</span></div></div>
+        <div class="hood-card reveal"><div class="hood-emoji">🚃</div><h3>Johnsonville</h3><p>A relaxed hillside suburb connected to the CBD by the scenic Johnsonville train line, with sweeping views across the harbour and hills.</p><div class="hood-tags"><span class="h-tag">Residential</span><span class="h-tag">Rail Link</span><span class="h-tag">Views</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEATHER -->
+  <section id="weather">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Climate</div>
+        <h2 class="section-title">Wellington Weather</h2>
+        <p class="section-desc">A temperate oceanic climate — prepare for all four seasons in one day!</p>
+      </div>
+      <div class="seasons-grid reveal">
+        <div class="season-card"><div class="season-icon">☀️</div><h3>Summer</h3><div class="season-months">Dec — Feb</div><div class="season-temp">18–23°C</div><p>Warm and occasionally hot. Long evenings, festivals, beach days at Oriental Bay. Can be breezy.</p></div>
+        <div class="season-card"><div class="season-icon">🍂</div><h3>Autumn</h3><div class="season-months">Mar — May</div><div class="season-temp">12–18°C</div><p>Crisp and colourful — often the calmest season. Perfect for walking the harbour trails and hilltops.</p></div>
+        <div class="season-card"><div class="season-icon">❄️</div><h3>Winter</h3><div class="season-months">Jun — Aug</div><div class="season-temp">6–12°C</div><p>Cool and wet with strong southerlies. Cosy café culture thrives. Occasional snow on the surrounding hills.</p></div>
+        <div class="season-card"><div class="season-icon">🌸</div><h3>Spring</h3><div class="season-months">Sep — Nov</div><div class="season-temp">10–16°C</div><p>Variable and often windy. Cherry blossoms bloom in Newtown Park. Outdoor events return to the waterfront.</p></div>
+      </div>
+      <div class="weather-note reveal">
+        <span style="font-size:1.5rem">💨</span>
+        <span>Wellington is the <strong>windiest capital city in the world</strong>, with average wind speeds of 29 km/h year-round. Always pack a jacket — no matter the season!</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CULTURE -->
+  <section id="culture">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Food, Arts &amp; Culture</div>
+        <h2 class="section-title">Life in Wellington</h2>
+        <p class="section-desc">Wellington's creative soul spans food, film, music, theatre, and deep Māori heritage.</p>
+      </div>
+      <div class="tabs reveal">
+        <button class="tab-btn active" data-tab="food">☕ Food &amp; Coffee</button>
+        <button class="tab-btn" data-tab="arts">🎭 Arts &amp; Music</button>
+        <button class="tab-btn" data-tab="maori">🌿 Māori Culture</button>
+        <button class="tab-btn" data-tab="film">🎬 Film &amp; Tech</button>
+      </div>
+      <div id="tabContent">
+        <div class="tab-panel active" id="tab-food">
+          <div class="culture-grid">
+            <div class="cult-card"><div class="cult-icon">☕</div><h4>Flat White Capital</h4><p>Wellington claims to have invented the flat white. Dozens of world-class independent roasters compete fiercely for the perfect cup.</p></div>
+            <div class="cult-card"><div class="cult-icon">🍜</div><h4>Diverse Dining</h4><p>From ramen to fine dining, Wellington packs more dining diversity per capita than almost anywhere in Australasia.</p></div>
+            <div class="cult-card"><div class="cult-icon">🍺</div><h4>Craft Beer Scene</h4><p>Garage Project, Fork &amp; Brewer, and dozens more pioneering breweries make Wellington New Zealand's undisputed beer capital.</p></div>
+            <div class="cult-card"><div class="cult-icon">🥗</div><h4>Harbourside Market</h4><p>The Sunday farmers' market at the waterfront is a local institution — fresh NZ produce, artisan goods, and incredible street food.</p></div>
+          </div>
+        </div>
+        <div class="tab-panel" id="tab-arts">
+          <div class="culture-grid">
+            <div class="cult-card"><div class="cult-icon">🎭</div><h4>Theatre Scene</h4><p>BATS, Circa, and the Opera House host world-class productions year-round. Wellington's intimate theatre scene is legendary across NZ.</p></div>
+            <div class="cult-card"><div class="cult-icon">🎵</div><h4>Live Music</h4><p>Jazz at Bodega, indie at San Fran, classical at the Michael Fowler Centre — Wellington's live music scene punches well above its weight.</p></div>
+            <div class="cult-card"><div class="cult-icon">🖼️</div><h4>City Gallery</h4><p>Civic Square's City Gallery presents cutting-edge contemporary art exhibitions from New Zealand and the world. Free entry.</p></div>
+            <div class="cult-card"><div class="cult-icon">🎪</div><h4>Festivals</h4><p>NZ International Arts Festival, Homegrown, LUX light festival, and the Wellington Jazz Festival fill the annual calendar.</p></div>
+          </div>
+        </div>
+        <div class="tab-panel" id="tab-maori">
+          <div class="culture-grid">
+            <div class="cult-card"><div class="cult-icon">🌊</div><h4>Te Whanganui-a-Tara</h4><p>Wellington's Māori name means "the great harbour of Tara." The region has deep roots with Ngāti Toa, Te Āti Awa, and Rangitāne iwi.</p></div>
+            <div class="cult-card"><div class="cult-icon">🏛️</div><h4>Te Papa Museum</h4><p>The Museum of New Zealand Te Papa Tongarewa is a world-class institution celebrating Māori taonga and the nation's full story.</p></div>
+            <div class="cult-card"><div class="cult-icon">🎶</div><h4>Kapa Haka</h4><p>Traditional Māori performing arts — waiata, haka, and tītī torea — are celebrated across schools, marae, and public events city-wide.</p></div>
+            <div class="cult-card"><div class="cult-icon">📖</div><h4>Te Reo Māori</h4><p>Bilingual signage, public broadcasts in te reo, and language schools are woven into everyday life across the city.</p></div>
+          </div>
+        </div>
+        <div class="tab-panel" id="tab-film">
+          <div class="culture-grid">
+            <div class="cult-card"><div class="cult-icon">🎬</div><h4>WETA Workshop</h4><p>Oscar-winning physical and digital effects studio behind The Lord of the Rings, Avatar, and hundreds of major international productions.</p></div>
+            <div class="cult-card"><div class="cult-icon">🧙</div><h4>Middle-earth</h4><p>Fans visit Weta Cave, Hobbiton, and iconic filming locations throughout the greater Wellington and Waikato regions.</p></div>
+            <div class="cult-card"><div class="cult-icon">💻</div><h4>Tech Hub</h4><p>Xero, TradeMe, and Flux Federation are among the growing list of leading tech companies headquartered in Wellington.</p></div>
+            <div class="cult-card"><div class="cult-icon">🎮</div><h4>Games Industry</h4><p>A thriving indie games development scene produces award-winning titles from studios tucked into Wellington's inner suburbs.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSPORT -->
+  <section id="transport">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Getting Around</div>
+        <h2 class="section-title">Transport in Wellington</h2>
+        <p class="section-desc">Wellington is compact and walkable, with excellent public transport options.</p>
+      </div>
+      <div class="transport-grid">
+        <div class="tcard reveal"><div class="tcard-icon">🚌</div><h3>Metlink Buses</h3><p>An extensive bus network covers the CBD and suburbs. The Snapper card makes cashless travel easy across all routes.</p></div>
+        <div class="tcard reveal"><div class="tcard-icon">🚆</div><h3>Commuter Rail</h3><p>Five rail lines connect Wellington to Hutt Valley, Porirua, Kapiti Coast, and Johnsonville. Fast and scenic commutes.</p></div>
+        <div class="tcard reveal"><div class="tcard-icon">🚡</div><h3>Cable Car</h3><p>The iconic red cable car from Lambton Quay to Kelburn — a must-do for tourists and a beloved daily commute for locals since 1902.</p></div>
+        <div class="tcard reveal"><div class="tcard-icon">🚴</div><h3>Cycling</h3><p>The Ara Harakeke cycleway and waterfront shared paths make cycling a great option around the flat CBD and harbour edge.</p></div>
+        <div class="tcard reveal"><div class="tcard-icon">⛴️</div><h3>Cook Strait Ferry</h3><p>Interislander and Bluebridge ferries connect Wellington to Picton in the South Island — a stunning 3-hour journey through the Marlborough Sounds.</p></div>
+        <div class="tcard reveal"><div class="tcard-icon">✈️</div><h3>Airport (WLG)</h3><p>Just 8km from the CBD with frequent domestic flights to Auckland, Christchurch, and Queenstown, plus international connections.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section id="history">
+    <div class="container">
+      <div class="section-header reveal" style="text-align:center">
+        <div class="section-label">Timeline</div>
+        <h2 class="section-title">A Brief History</h2>
+        <p class="section-desc" style="margin:0 auto">From Polynesian settlement to creative capital — Wellington's remarkable story.</p>
+      </div>
+      <div class="timeline">
+        <div class="tl-item reveal"><div class="tl-dot">🌊</div><div class="tl-body"><div class="tl-year">~1300 CE</div><h3>Polynesian Settlement</h3><p>Māori people settle the Wellington harbour region, naming it Te Whanganui-a-Tara — "the great harbour of Tara."</p></div></div>
+        <div class="tl-item reveal"><div class="tl-dot">⚓</div><div class="tl-body"><div class="tl-year">1839</div><h3>European Settlement</h3><p>The New Zealand Company establishes the first European settlement at Petone, later relocating to the sheltered harbour foreshore.</p></div></div>
+        <div class="tl-item reveal"><div class="tl-dot">📜</div><div class="tl-body"><div class="tl-year">1840</div><h3>Treaty of Waitangi</h3><p>New Zealand becomes a British colony. Wellington is formally established as a European town and named after the Duke of Wellington.</p></div></div>
+        <div class="tl-item reveal"><div class="tl-dot">🏛️</div><div class="tl-body"><div class="tl-year">1865</div><h3>Becomes the Capital</h3><p>The seat of government moves from Auckland to Wellington, recognising its central location between the North and South Islands.</p></div></div>
+        <div class="tl-item reveal"><div class="tl-dot">🗳️</div><div class="tl-body"><div class="tl-year">1893</div><h3>Women's Suffrage</h3><p>New Zealand becomes the first self-governing country to grant women the right to vote — a landmark law passed in Wellington's Parliament.</p></div></div>
+        <div class="tl-item reveal"><div class="tl-dot">🚡</div><div class="tl-body"><div class="tl-year">1902</div><h3>Cable Car Opens</h3><p>The iconic Wellington Cable Car begins service, connecting the CBD to Kelburn — still running today after over 120 years.</p></div></div>
+        <div class="tl-item reveal"><div class="tl-dot">🎬</div><div class="tl-body"><div class="tl-year">2001</div><h3>Lord of the Rings</h3><p>Peter Jackson's Fellowship of the Ring premieres globally, cementing Wellington's status as a world-class creative and film hub.</p></div></div>
+        <div class="tl-item reveal"><div class="tl-dot">🌟</div><div class="tl-body"><div class="tl-year">Today</div><h3>Creative Capital</h3><p>Wellington thrives as New Zealand's cultural, political, and creative heart — consistently ranked among the world's most liveable cities.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section id="map">
+    <div class="map-header">
+      <div class="container">
+        <div class="section-label">Find Us</div>
+        <h2 class="section-title">Wellington on the Map</h2>
+      </div>
+    </div>
+    <iframe
+      class="map-frame"
+      src="https://www.openstreetmap.org/export/embed.html?bbox=174.72%2C-41.33%2C174.82%2C-41.27&layer=mapnik&marker=-41.2866%2C174.7756"
+      title="Map of Wellington, New Zealand"
+      loading="lazy"
+    ></iframe>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Welling<span>ton</span></div>
+    <div class="footer-tagline">Te Whanganui-a-Tara — New Zealand's Creative Capital</div>
+    <ul class="footer-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#attractions">Attractions</a></li>
+      <li><a href="#neighborhoods">Suburbs</a></li>
+      <li><a href="#weather">Weather</a></li>
+      <li><a href="#culture">Culture</a></li>
+      <li><a href="#history">History</a></li>
+      <li><a href="#map">Map</a></li>
+    </ul>
+    <hr class="fdiv">
+    <p class="footer-copy">Wellington, Aotearoa New Zealand &nbsp;·&nbsp; 41°S 174°E</p>
+  </footer>
+
+  <script>
+    // Particles
+    const pc = document.getElementById('particles');
+    for (let i = 0; i < 28; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.cssText = `left:${Math.random()*100}%;width:${Math.random()*4+2}px;height:${Math.random()*4+2}px;animation-duration:${Math.random()*14+10}s;animation-delay:${Math.random()*10}s`;
+      pc.appendChild(p);
+    }
+
+    // Attractions
+    const attractions = [
+      {emoji:'🏛️',cat:'culture',tag:'Culture',title:'Te Papa Museum',desc:'The national museum of New Zealand — a world-class journey through Māori culture, NZ history, nature, and art.',meta:'⏱ 2–4 hrs · Free'},
+      {emoji:'🚡',cat:'culture',tag:'Culture',title:'Wellington Cable Car',desc:'Ride the iconic red cable car from Lambton Quay to Kelburn for panoramic harbour and city views. A Wellington icon since 1902.',meta:'⏱ 15 min · $5'},
+      {emoji:'🦜',cat:'nature',tag:'Nature',title:'Zealandia Sanctuary',desc:'A predator-free mainland island sanctuary where you can encounter kiwi, tuatara, and dozens of native bird species up close.',meta:'⏱ Half day · $22'},
+      {emoji:'🎬',cat:'culture',tag:'Culture',title:'Weta Workshop',desc:'Tour the legendary studio behind Lord of the Rings and Avatar. Marvel at props, costumes, and extraordinary creature effects.',meta:'⏱ 1–2 hrs · $35'},
+      {emoji:'🌊',cat:'outdoor',tag:'Outdoor',title:'Oriental Bay Beach',desc:"Wellington's golden sandy beach right in the heart of the city — perfect for paddleboarding, running, or a summer swim.",meta:'⏱ Any time · Free'},
+      {emoji:'🌄',cat:'outdoor',tag:'Outdoor',title:'Mt. Victoria Lookout',desc:'Hike or drive to the best 360° panoramic views of Wellington Harbour, the city, and Cook Strait. Unmissable at sunset.',meta:'⏱ 1–2 hrs · Free'},
+      {emoji:'☕',cat:'food',tag:'Food',title:'Cuba Street Cafés',desc:"The soul of Wellington's famous café culture. Stroll Cuba Street for world-class flat whites, brunch, and independent eateries.",meta:'⏱ Anytime · $$'},
+      {emoji:'🍺',cat:'food',tag:'Food',title:'Garage Project',desc:'Award-winning craft brewery producing adventurous small-batch beers. Visit the Aro Valley taproom for fresh pints and tours.',meta:'⏱ 1–2 hrs · $$'},
+      {emoji:'🖼️',cat:'culture',tag:'Culture',title:'City Gallery Wellington',desc:"Civic Square's contemporary art gallery showcasing bold local and international exhibitions. Free entry.",meta:'⏱ 1–2 hrs · Free'},
+      {emoji:'🌿',cat:'nature',tag:'Nature',title:'Botanic Garden',desc:'26 hectares of native forest, formal gardens, and a famous rose garden at the top of the cable car in Kelburn.',meta:'⏱ 1–3 hrs · Free'},
+      {emoji:'⛵',cat:'outdoor',tag:'Outdoor',title:'Wellington Harbour',desc:"Kayak, paddleboard, or join a sailing tour on Wellington's stunning natural harbour. The waterfront promenade is perfect for a stroll.",meta:'⏱ 1–3 hrs · from $30'},
+      {emoji:'🎭',cat:'culture',tag:'Culture',title:'BATS Theatre',desc:"Wellington's beloved fringe theatre presenting daring, innovative productions by NZ and international artists at affordable prices.",meta:'⏱ 2 hrs · $20–30'},
+    ];
+    const tagClass = {culture:'tag-culture',nature:'tag-nature',food:'tag-food',outdoor:'tag-outdoor'};
+
+    function renderAttractions(filter) {
+      const list = filter === 'all' ? attractions : attractions.filter(a => a.cat === filter);
+      document.getElementById('attractionsGrid').innerHTML = list.map(a => `
+        <div class="attr-card">
+          <div class="attr-img ${a.cat}">${a.emoji}</div>
+          <div class="attr-body">
+            <span class="attr-tag ${tagClass[a.cat]}">${a.tag}</span>
+            <h3>${a.title}</h3>
+            <p>${a.desc}</p>
+            <div class="attr-meta">${a.meta}</div>
+          </div>
+        </div>`).join('');
+    }
+    renderAttractions('all');
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderAttractions(btn.dataset.filter);
+      });
+    });
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Did You Know rotator
+    const facts = [
+      'Wellington has more cafés and restaurants per capita than New York City.',
+      'Wellington is the southernmost capital city of a sovereign nation in the world.',
+      'The flat white coffee is widely believed to have been invented in Wellington in the 1980s.',
+      'Wellington is the windiest capital city in the world, with average gusts of 29 km/h.',
+      'New Zealand was the first country to grant women the right to vote, in 1893.',
+      'The Lord of the Rings trilogy was almost entirely filmed within 2 hours of Wellington.',
+      'Zealandia was the first fully predator-fenced urban wildlife sanctuary in the world.',
+      "Wellington's cable car has been running continuously since 1902 — over 120 years of service.",
+    ];
+    let cur = 0;
+    const dykText = document.getElementById('dykText');
+    const dykDots = document.getElementById('dykDots');
+    dykText.style.transition = 'opacity 0.25s';
+
+    facts.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dyk-dot' + (i === 0 ? ' active' : '');
+      d.onclick = () => showFact(i);
+      dykDots.appendChild(d);
+    });
+
+    function showFact(i) {
+      cur = i;
+      dykText.style.opacity = '0';
+      setTimeout(() => { dykText.textContent = facts[i]; dykText.style.opacity = '1'; }, 220);
+      document.querySelectorAll('.dyk-dot').forEach((d, j) => d.classList.toggle('active', j === i));
+    }
+    setInterval(() => showFact((cur + 1) % facts.length), 5000);
+
+    // Mobile nav
+    document.getElementById('navToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // Active nav on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navAs = document.querySelectorAll('.nav-links a');
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+        }
+      });
+    }, {threshold: 0.35}).observe && sections.forEach(s =>
+      new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+        });
+      }, {threshold: 0.35}).observe(s)
+    );
+
+    // Scroll reveal
+    new IntersectionObserver((entries, obs) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, {threshold: 0.1}).observe && document.querySelectorAll('.reveal').forEach(el =>
+      new IntersectionObserver((entries, obs) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, {threshold: 0.1}).observe(el)
+    );
+  </script>
 </body>
 </html>
